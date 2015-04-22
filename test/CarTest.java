@@ -9,17 +9,9 @@ import static org.junit.Assert.*;
 public class CarTest {
 
     @Test
-    public void shouldBeAbleToParkCar()
+    public void shouldBeAbleToGetBackTheSameCarIdentificationForSameCar()
     {
-        Car car = new Car();
-        assertTrue("Should be able to park a car.", car.park());
-    }
-
-    @Test(expected=RuntimeException.class)
-    public void shouldNotBeAbleToParkCarIfParkedOnce()
-    {
-        Car car = new Car();
-        car.park();
-        car.park();
+        Car car = new Car("C002");
+        assertEquals("Should get the same car back", "C002", car.getId());
     }
 }

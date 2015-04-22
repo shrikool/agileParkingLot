@@ -1,5 +1,5 @@
 import org.junit.Assert;
-import org.junit.Assert.*;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
@@ -8,26 +8,20 @@ import org.junit.Test;
 public class TravellerTest {
 
     @Test(expected=NullPointerException.class)
-    public void shouldNotAbleToParkCarWithIfTravellerContHaveAnyCar(){
+    public void shouldNotAbleToParkCarWithIfTravellerDontHaveAnyCar(){
         Traveller traveller= new Traveller(null);
-        traveller.parkCar();
+        traveller.parkCarToParkingLot();
     }
 
     @Test
     public void travellerShouldBeAbleToParkACar()
     {
-        Car car = new Car();
+        Car car = new Car("C002");
         Traveller traveller = new Traveller(car);
-        Assert.assertTrue("Car is parked by traveller.", traveller.parkCar());
+        assertTrue("Car is parked by traveller.", traveller.parkCarToParkingLot());
     }
 
-    @Test(expected=RuntimeException.class)
-    public void shouldNotBeAbleToParkTheCarByTwoTravellers()
-    {
-        Car car = new Car();
-        Traveller traveller = new Traveller(car);
-        Traveller traveller1 = new Traveller(car);
-        traveller.parkCar();
-        traveller1.parkCar();
-    }
+
+
+
 }
