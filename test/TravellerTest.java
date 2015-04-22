@@ -10,15 +10,17 @@ public class TravellerTest {
     @Test(expected=NullPointerException.class)
     public void shouldNotAbleToParkCarWithIfTravellerDontHaveAnyCar(){
         Traveller traveller= new Traveller(null);
-        traveller.parkCarToParkingLot();
+        ParkingLot parkinglot = new ParkingLot(5);
+        traveller.parkCarToParkingLot(parkinglot);
     }
 
     @Test
     public void travellerShouldBeAbleToParkACar()
     {
         Car car = new Car("C002");
+        ParkingLot parkinglot = new ParkingLot(5);
         Traveller traveller = new Traveller(car);
-        assertTrue("Car is parked by traveller.", traveller.parkCarToParkingLot());
+        assertTrue("Car is parked by traveller.", traveller.parkCarToParkingLot(parkinglot));
     }
 
 

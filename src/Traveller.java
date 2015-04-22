@@ -10,9 +10,9 @@ public class Traveller {
     }
 
 
-    public boolean parkCarToParkingLot() {
+    public boolean parkCarToParkingLot(ParkingLot parkingLot) {
         if (this.car == null)
             throw new NullPointerException("Traveller should have atleast one car.");
-        return ParkingLot.park(this.car);
+        return parkingLot.park(this.car);
     }
 }
