@@ -13,7 +13,7 @@ public class ParkingLot {
     }
 
     public boolean park(Car car) {
-        if (parkingArea.size() > parkingLotSize)
+        if (parkingArea.size() >= parkingLotSize)
             throw new IndexOutOfBoundsException("Parking lot is full.");
         return parkingArea.put(car.getId(), car) == null;
     }
@@ -23,6 +23,6 @@ public class ParkingLot {
     }
 
     public boolean isFull() {
-        return (parkingArea.size() > parkingLotSize);
+        return (parkingArea.size() >= parkingLotSize);
     }
 }
