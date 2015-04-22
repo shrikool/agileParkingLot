@@ -1,9 +1,9 @@
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by shrikant on 4/22/2015.
  */
-public class ParkingLot {
+public class ParkingLot extends Observable {
     private HashMap<String , Car> parkingArea;
     private int parkingLotSize;
 
@@ -13,13 +13,28 @@ public class ParkingLot {
     }
 
     public boolean park(Car car) {
-        if (parkingArea.size() >= parkingLotSize)
+        if (isFull())
             throw new IndexOutOfBoundsException("Parking lot is full.");
-        return parkingArea.put(car.getId(), car) == null;
+
+        boolean isSuccess =  parkingArea.put(car.getId(), car) == null;
+
+        if (isSuccess && isFull()) {
+            setChanged();
+            notifyObservers(new Boolean(true));
+            return isSuccess;
+        }
+
+        setChanged();
+        notifyObservers(new Boolean(false));
+        return isSuccess;
     }
 
     public Car getCar(String id) {
-        return parkingArea.get(id);
+        Car car=parkingArea.get(id);
+        parkingArea.remove(id);
+        setChanged();
+        notifyObservers(new Boolean(false));
+        return car;
     }
 
     public boolean isFull() {

@@ -1,12 +1,21 @@
+import javafx.beans.Observable;
+
+import java.util.Observer;
+
 /**
  * Created by shrikant on 4/22/2015.
  */
-public class Owner {
+public class Owner implements Observer{
+    boolean isParkingLotFull;
 
-    public String isParkingLotFull(ParkingLot parkinglot) {
-        if (parkinglot == null)
-            throw new IllegalArgumentException("Owner doesn't own a parking lot");
-        if (parkinglot.isFull())
+    @Override
+    public void update(java.util.Observable o, Object parkingLotStatus) {
+        isParkingLotFull=(Boolean)parkingLotStatus;
+
+    }
+
+    public String checkParkingStatus() {
+        if(isParkingLotFull)
             return "FULL";
         return "NOT FULL";
     }
