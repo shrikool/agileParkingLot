@@ -16,18 +16,7 @@ public class TravellerTest {
     @Test(expected=NullPointerException.class)
     public void shouldNotAbleToParkCarWithIfTravellerDontHaveAnyCar(){
         Traveller traveller= new Traveller(null);
-        ParkingLot parkinglot = new ParkingLot(5);
-        ArrayList<ParkingLot> parkingLotList = new ArrayList<ParkingLot>();
-        parkingLotList.add(parkinglot);
-
-        Attendant attendant = mock(Attendant.class);
-        when(attendant.getFreeParkingLot(parkingLotList)).thenReturn(parkinglot);
-        ParkingLot parkingLotFree = attendant.getFreeParkingLot(parkingLotList);
-
-
-        traveller.parkCarToParkingLot(parkinglot);
-
-
+        traveller.parkCar(null);
     }
 
     @Test
@@ -36,34 +25,24 @@ public class TravellerTest {
         Car car = new Car("C002");
         ParkingLot parkinglot = new ParkingLot(5);
         Traveller traveller = new Traveller(car);
-        ArrayList<ParkingLot> parkingLotList = new ArrayList<ParkingLot>();
-        parkingLotList.add(parkinglot);
 
         Attendant attendant = mock(Attendant.class);
-        when(attendant.getFreeParkingLot(parkingLotList)).thenReturn(parkinglot);
-        ParkingLot parkingLotFree = attendant.getFreeParkingLot(parkingLotList);
-
-        traveller.parkCarToParkingLot(parkingLotFree);
-
-        verify(attendant).getFreeParkingLot(parkingLotList);
+        when(attendant.parkTheCar(car)).thenReturn(true);
+        boolean isCarParked = traveller.parkCar(attendant);
+        assertTrue("Should be able to park the car", isCarParked);
     }
 
 
-    @Test(expected=NullPointerException.class)
+    @Test
     public void travellerShouldNotBeAbleToParkACarIfParkingLotEmpty()
     {
         Car car = new Car("C002");
-        ParkingLot parkinglot = null;
         Traveller traveller = new Traveller(car);
-
-        ArrayList<ParkingLot> parkingLotList = new ArrayList<ParkingLot>();
-        parkingLotList.add(parkinglot);
         Attendant attendant = mock(Attendant.class);
-        when(attendant.getFreeParkingLot(parkingLotList)).thenReturn(parkinglot);
-        ParkingLot parkingLotFree = attendant.getFreeParkingLot(parkingLotList);
+        when(attendant.parkTheCar(car)).thenReturn(false);
+        boolean isCarParked = traveller.parkCar(attendant);
 
-
-        traveller.parkCarToParkingLot(parkingLotFree);
+        assertFalse("Traveller shouldn't be able to park a car if parking lot empty",isCarParked);
     }
 
     @Test
@@ -75,47 +54,30 @@ public class TravellerTest {
 
         ArrayList<ParkingLot> parkingLotList = new ArrayList<ParkingLot>();
         parkingLotList.add(parkinglot);
-        Attendant attendant = mock(Attendant.class);
-        when(attendant.getFreeParkingLot(parkingLotList)).thenReturn(parkinglot);
-        ParkingLot parkingLotFree = attendant.getFreeParkingLot(parkingLotList);
-
-        traveller.parkCarToParkingLot(parkingLotFree);
-        Car myCar = traveller.getMyCar(parkingLotFree);
-        assertEquals(car, myCar);
-
-    }
-
-    @Test(expected=NullPointerException.class)
-    public void travellerShouldNotBeAbleToUnparkHisCarIfParkingLotEmpty()
-    {
-        Car car = new Car("C002");
-        ParkingLot parkinglot = new ParkingLot(5);
-        Traveller traveller = new Traveller(car);
-
-        ArrayList<ParkingLot> parkingLotList = new ArrayList<ParkingLot>();
-        parkingLotList.add(parkinglot);
-        Attendant attendant = mock(Attendant.class);
-        when(attendant.getFreeParkingLot(parkingLotList)).thenReturn(parkinglot);
-        ParkingLot parkingLotFree = attendant.getFreeParkingLot(parkingLotList);
-
-        traveller.parkCarToParkingLot(parkingLotFree);
-        parkinglot = null;
-        Car myCar = traveller.getMyCar(parkinglot);
-        assertEquals(car,myCar);
-
-    }
-
-    @Test
-    public void travellerShouldNotAbleToParkCarIfAllParkingLotFull()
-    {
-        Car car = new Car("C002");
-        Traveller traveller = new Traveller(car);
 
         Attendant attendant = mock(Attendant.class);
-        traveller.parkCarToParkingLot(attendant);
+        when(attendant.parkTheCar(car)).thenReturn(true);
+        when(attendant.getTheCar(car.getId())).thenReturn(car);
 
-        verify(attendant).parkTheCar();
+        traveller.parkCar(attendant);
+        Car carOnUnPark = traveller.getMyCar(attendant);
+
+        assertEquals("Traveller should be able to unpark his car.", car, carOnUnPark);
     }
+
+
+
+//    @Test
+//    public void travellerShouldNotAbleToParkCarIfAllParkingLotFull()
+//    {
+//        Car car = new Car("C002");
+//        Traveller traveller = new Traveller(car);
+//
+//        Attendant attendant = mock(Attendant.class);
+//        traveller.parkCarToParkingLot(attendant);
+//
+//        verify(attendant).parkTheCar();
+//    }
 
 
 

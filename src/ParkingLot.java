@@ -5,6 +5,7 @@ import java.util.*;
  */
 public class ParkingLot implements Observable {
     private HashMap<String , Car> parkedCarsDetail;
+
     private HashMap<String ,Object> listOfPersonsToNotify;
     private int parkingLotSize;
 
@@ -29,6 +30,7 @@ public class ParkingLot implements Observable {
 
     public ParkingLot(int parkingLotSize){
         this.parkingLotSize = parkingLotSize;
+
         this.listOfPersonsToNotify = new HashMap<String, Object>();
         this.parkedCarsDetail = new HashMap<>();
     }

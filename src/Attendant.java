@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by shrikant on 4/23/2015.
@@ -7,6 +9,8 @@ import java.util.List;
 public class Attendant {
 
     private List<ParkingLot> parkingLotList = new ArrayList<ParkingLot>();
+
+    private Map<String,ParkingLot> carParkedTokenDetail = new HashMap<String,ParkingLot>();
 
     private ParkingLot getFreeParkingLot() {
         if (parkingLotList == null)
@@ -21,16 +25,22 @@ public class Attendant {
 
     public void assignParkingLotListToAttendant(List<ParkingLot> parkingLotList)
     {
+        if (parkingLotList == null)
+            throw new NullPointerException();
         this.parkingLotList = parkingLotList;
     }
 
     boolean parkTheCar(Car car) {
-    ParkingLot parkingLotFree = getFreeParkingLot();
-       return parkingLotFree.park(car);
+        if (parkingLotList.size() == 0)
+            throw new NullPointerException();
+        ParkingLot parkingLotFree = getFreeParkingLot();
+        if (parkingLotFree == null)
+            return false;
+        carParkedTokenDetail.put(car.getId(),parkingLotFree);
+        return parkingLotFree.park(car);
     }
 
     Car getTheCar(String carId) {
-
-        return parkingLotFree.park(car);
+        return carParkedTokenDetail.get(carId).getCar(carId);
     }
 }
