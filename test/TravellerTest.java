@@ -24,6 +24,16 @@ public class TravellerTest {
     }
 
 
+    @Test(expected=NullPointerException.class)
+    public void travellerShouldNotBeAbleToParkACarIfParkingLotEmpty()
+    {
+        Car car = new Car("C002");
+        ParkingLot parkinglot = null;
+        Traveller traveller = new Traveller(car);
+        traveller.parkCarToParkingLot(parkinglot);
+    }
+
+
 
 
 }

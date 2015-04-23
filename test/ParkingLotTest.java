@@ -49,40 +49,59 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void shouldSendMessageToAllMyObseversWhenParkingLotIsFull() {
+    public void shouldSendMessageToParkingLotOwnerWhenParkingLotIsFull() {
         ParkingLot parkingLot = new ParkingLot(1);
-        TestObserver testObserver = mock(TestObserver.class);
-        parkingLot.addObserver(testObserver);
+        Owner owner = mock(Owner.class);
+        parkingLot.registerObserver(owner);
 
         parkingLot.park(car);
 
-        verify(testObserver).update(parkingLot, new Boolean(true));
+        verify(owner).update(parkingLot, new Boolean(true));
     }
 
     @Test
     public void shouldSendMessageToAllMyObseversWhenParkingLotIsAvailable() {
         ParkingLot parkingLot = new ParkingLot(2);
-        TestObserver testObserver = mock(TestObserver.class);
-        parkingLot.addObserver(testObserver);
+        Owner owner = mock(Owner.class);
+        parkingLot.registerObserver(owner);
 
         parkingLot.park(car);
         parkingLot.park(new Car("CAR_ID"));
 
-        verify(testObserver).update(parkingLot, new Boolean(false));
-        verify(testObserver).update(parkingLot, new Boolean(true));
+       //verify(testObserver).update(parkingLot, new Boolean(false));
+        verify(owner).update(parkingLot, new Boolean(true));
     }
 
     @Test
     public void shouldSendMessageToAllMyObseversWhenParkingLotIsAvailableWhenRetrievingACar() {
         ParkingLot parkingLot = new ParkingLot(1);
-        TestObserver testObserver = mock(TestObserver.class);
-        parkingLot.addObserver(testObserver);
+        Owner owner = mock(Owner.class);
+        parkingLot.registerObserver(owner);
 
         parkingLot.park(car);
         parkingLot.getCar(car.getId());
 
-        verify(testObserver).update(parkingLot, new Boolean(true));
-        verify(testObserver).update(parkingLot, new Boolean(false));
+        verify(owner).update(parkingLot, new Boolean(true));
+        verify(owner).update(parkingLot, new Boolean(false));
+    }
+
+    @Test
+    public void testIfGarageIs80PercentFull()
+    {
+        ParkingLot parkingLot = new ParkingLot(4);
+        Traveller travellerOne = new Traveller(new Car("002"));
+        Traveller travellerTwo = new Traveller(new Car("003"));
+        Traveller travellerThree = new Traveller(new Car("004"));
+
+        FBIAgent fbiAgent = mock(FBIAgent.class);
+        parkingLot.registerObserver(fbiAgent);
+
+        travellerOne.parkCarToParkingLot(parkingLot);
+        travellerTwo.parkCarToParkingLot(parkingLot);
+        travellerThree.parkCarToParkingLot(parkingLot);
+
+        verify(fbiAgent).update(parkingLot, new Boolean(true));
+
     }
 
 }

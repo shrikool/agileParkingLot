@@ -11,6 +11,8 @@ public class Traveller {
 
 
     public boolean parkCarToParkingLot(ParkingLot parkingLot) {
+        if (parkingLot == null)
+            throw new NullPointerException("Traveller should get a parking lot.");
         if (this.car == null)
             throw new NullPointerException("Traveller should have atleast one car.");
         return parkingLot.park(this.car);
