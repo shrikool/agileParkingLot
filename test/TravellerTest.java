@@ -33,6 +33,31 @@ public class TravellerTest {
         traveller.parkCarToParkingLot(parkinglot);
     }
 
+    @Test
+    public void travellerShouldBeAbleToUnparkHisCar()
+    {
+        Car car = new Car("C002");
+        ParkingLot parkinglot = new ParkingLot(5);
+        Traveller traveller = new Traveller(car);
+        traveller.parkCarToParkingLot(parkinglot);
+        Car myCar = traveller.getMyCar(parkinglot);
+        assertEquals(car, myCar);
+
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void travellerShouldNotBeAbleToUnparkHisCarIfParkingLotEmpty()
+    {
+        Car car = new Car("C002");
+        ParkingLot parkinglot = new ParkingLot(5);
+        Traveller traveller = new Traveller(car);
+        traveller.parkCarToParkingLot(parkinglot);
+        parkinglot = null;
+        Car myCar = traveller.getMyCar(parkinglot);
+        assertEquals(car,myCar);
+
+    }
+
 
 
 

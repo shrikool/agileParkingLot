@@ -4,7 +4,7 @@ import java.util.*;
  * Created by shrikant on 4/22/2015.
  */
 public class ParkingLot implements Observable {
-    private HashMap<String , Car> parkingArea;
+    private HashMap<String , Car> parkedCarsDetail;
     private HashMap<String ,Object> listOfPersonsToNotify;
     private int parkingLotSize;
 
@@ -30,21 +30,25 @@ public class ParkingLot implements Observable {
     public ParkingLot(int parkingLotSize){
         this.parkingLotSize = parkingLotSize;
         this.listOfPersonsToNotify = new HashMap<String, Object>();
-        parkingArea = new HashMap<String, Car>();
+        this.parkedCarsDetail = new HashMap<>();
     }
 
-    public boolean park(Car car) {
+    boolean park(Car car) {
         if (isFull())
             throw new IndexOutOfBoundsException("Parking lot is full.");
 
-        boolean isSuccess =  parkingArea.put(car.getId(), car) == null;
+        boolean isSuccess =  this.parkedCarsDetail.put(car.getId(), car) == null;
 
         if (isSuccess && isFull()) {
-
-
             notifyObservers(OwnerEvent,new Boolean(true));
-
             return isSuccess;
+        }
+
+        int numberOfCarsParked = this.parkedCarsDetail.size();
+        float percentageLotFilled = (numberOfCarsParked * 100 )/ parkingLotSize;
+        if (percentageLotFilled - 80 >= 0)
+        {
+            notifyObservers(FBIEvent, true);
         }
 
        /* setChanged();
@@ -52,15 +56,15 @@ public class ParkingLot implements Observable {
         return isSuccess;
     }
 
-    public Car getCar(String id) {
-        Car car=parkingArea.get(id);
-        parkingArea.remove(id);
+    Car getCar(String id) {
+        Car car=this.parkedCarsDetail.get(id);
+        parkedCarsDetail.remove(id);
 
         notifyObservers(OwnerEvent,new Boolean(false));
         return car;
     }
 
     public boolean isFull() {
-        return (parkingArea.size() >= parkingLotSize);
+        return (this.parkedCarsDetail.size() >= parkingLotSize);
     }
 }

@@ -17,4 +17,11 @@ public class Traveller {
             throw new NullPointerException("Traveller should have atleast one car.");
         return parkingLot.park(this.car);
     }
+
+    public Car getMyCar(ParkingLot parkingLot)
+    {
+        if (parkingLot == null)
+            throw new NullPointerException("Traveller should get a parking lot.");
+        return parkingLot.getCar(car.getId());
+    }
 }
