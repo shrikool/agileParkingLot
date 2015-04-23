@@ -10,18 +10,25 @@ public class Traveller {
     }
 
 
-    public boolean parkCarToParkingLot(ParkingLot parkingLot) {
-        if (parkingLot == null)
-            throw new NullPointerException("Traveller should get a parking lot.");
+    public boolean parkCarToParkingLot(Attendant attendant) {
+        if (attendant == null)
+            throw new NullPointerException("Traveller should get a attendant for parking.");
         if (this.car == null)
             throw new NullPointerException("Traveller should have atleast one car.");
-        return parkingLot.park(this.car);
+        return attendant.parkTheCar(this.car);
     }
+//    public boolean parkCarToParkingLot(ParkingLot parkingLot) {
+//        if (parkingLot == null)
+//            throw new NullPointerException("Traveller should get a parking lot.");
+//        if (this.car == null)
+//            throw new NullPointerException("Traveller should have atleast one car.");
+//        return parkingLot.park(this.car);
+//    }
 
-    public Car getMyCar(ParkingLot parkingLot)
+    public Car getMyCar(Attendant attendant)
     {
-        if (parkingLot == null)
-            throw new NullPointerException("Traveller should get a parking lot.");
-        return parkingLot.getCar(car.getId());
+        if (attendant == null)
+            throw new NullPointerException("Traveller should get a attendant for parking.");
+        return attendant.getTheCar(car.getId());
     }
 }

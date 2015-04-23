@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -5,7 +6,9 @@ import java.util.List;
  */
 public class Attendant {
 
-    public ParkingLot getFreeParkingLot(List<ParkingLot> parkingLotList) {
+    private List<ParkingLot> parkingLotList = new ArrayList<ParkingLot>();
+
+    private ParkingLot getFreeParkingLot() {
         if (parkingLotList == null)
             throw new IllegalArgumentException("Attendant should have parking lots to attend.");
         for(ParkingLot parkingLot : parkingLotList)
@@ -14,5 +17,20 @@ public class Attendant {
                 return parkingLot;
         }
         return null;
+    }
+
+    public void assignParkingLotListToAttendant(List<ParkingLot> parkingLotList)
+    {
+        this.parkingLotList = parkingLotList;
+    }
+
+    boolean parkTheCar(Car car) {
+    ParkingLot parkingLotFree = getFreeParkingLot();
+       return parkingLotFree.park(car);
+    }
+
+    Car getTheCar(String carId) {
+
+        return parkingLotFree.park(car);
     }
 }
