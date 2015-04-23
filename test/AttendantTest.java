@@ -30,7 +30,6 @@ public class AttendantTest {
     public void shouldNotParkIfParkingLotListIsEmpty()
     {
         List<ParkingLot> parkingLotList = null;
-
         Attendant attendant = new Attendant();
         attendant.assignParkingLotListToAttendant(parkingLotList);
         attendant.parkTheCar(new Car("a"));
@@ -69,7 +68,7 @@ public class AttendantTest {
         assertTrue(!isSuccess);
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void attendantShouldNotBeAbleToUnparkHisCarIfParkingLotEmpty()
     {
 
@@ -94,6 +93,20 @@ public class AttendantTest {
         parkingLotList.add(parkingLot);
 
         Car car = new Car("a");
+        attendant.parkTheCar(car);
+
+
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void attendantShouldNotBeAbleToParkCarIfCarIsEmpty()
+    {
+        Attendant attendant = new Attendant();
+        ParkingLot parkingLot = new ParkingLot(2);
+        List<ParkingLot> parkingLotList = new ArrayList<ParkingLot>();
+        parkingLotList.add(parkingLot);
+        attendant.assignParkingLotListToAttendant(parkingLotList);
+        Car car = null;
         attendant.parkTheCar(car);
 
 
